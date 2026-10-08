@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For You</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: #050505;
+    font-family: Georgia, serif;
+}
+
+/* ================= CURTAIN ================= */
+
+.curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.curtain-left,
+.curtain-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #300007 0px,
+            #65000f 18px,
+            #3b0008 36px
+        );
+
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.8);
+
+    transition:
+        transform 1.8s cubic-bezier(.77,0,.18,1);
+}
+
+.curtain-left {
+    left: 0;
+}
+
+.curtain-right {
+    right: 0;
+}
+
+/* OPEN CURTAIN */
+
+.curtain.open .curtain-left {
+    transform: translateX(-100%);
+}
+
+.curtain.open .curtain-right {
+    transform: translateX(100%);
+}
+
+/* ================= INTRO ================= */
+
+.intro {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    color: white;
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+.intro p {
+    font-size: 15px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-bottom: 35px;
+    opacity: 0.85;
+}
+
+.intro h1 {
+    font-size: clamp(40px, 7vw, 75px);
+    font-weight: 400;
+    margin-bottom: 45px;
+}
+
+.open-btn {
+    padding: 15px 45px;
+
+    border: 1px solid rgba(255,255,255,0.7);
+    background: transparent;
+
+    color: white;
+    font-size: 13px;
+    letter-spacing: 5px;
+
+    cursor: pointer;
+
+    transition: 0.4s ease;
+}
+
+.open-btn:hover {
+    background: white;
+    color: #300007;
+    transform: scale(1.05);
+}
+
+.curtain.open .intro {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+}
+
+/* ================= COUNTDOWN ================= */
+
+.countdown {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #050505;
+
+    opacity: 0;
+    visibility: hidden;
+
+    z-index: 5;
+
+    transition: opacity 0.5s ease;
+}
+
+.countdown.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.number {
+    font-family: Georgia, serif;
+
+    font-size: clamp(100px, 20vw, 260px);
+
+    color: white;
+
+    opacity: 0;
+    transform: scale(0.4);
+
+    position: absolute;
+
+    text-shadow:
+        0 0 30px rgba(255,255,255,0.4),
+        0 0 80px rgba(255,60,80,0.2);
+}
+
+.number.show {
+    animation: countdownAnimation 1s ease forwards;
+}
+
+@keyframes countdownAnimation {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+
+    30% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+/* ================= AFTER COUNTDOWN ================= */
+
+.final-screen {
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #210006 0%,
+            #080003 45%,
+            #000 100%
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 1.5s ease;
+
+    color: white;
+    text-align: center;
+}
+
+.final-screen.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.final-screen h2 {
+    font-size: clamp(35px, 7vw, 80px);
+    font-weight: 400;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- ================= CURTAIN ================= -->
+
+<div class="curtain" id="curtain">
+
+    <div class="curtain-left"></div>
+    <div class="curtain-right"></div>
+
+    <div class="intro">
+
+        <p>Something I've been wanting to show you</p>
+
+        <h1>For You.</h1>
+
+        <button class="open-btn" onclick="startExperience()">
+            OPEN
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= COUNTDOWN ================= -->
+
+<div class="countdown" id="countdown">
+
+    <div class="number" id="number">
+        3
+    </div>
+
+</div>
+
+
+<!-- ================= NEXT SCREEN ================= -->
+
+<div class="final-screen" id="finalScreen">
+
+    <h2>It begins...</h2>
+
+</div>
+
+
+<script>
+
+function startExperience() {
+
+    const curtain = document.getElementById("curtain");
+    const countdown = document.getElementById("countdown");
+
+    /* Open curtains */
+
+    curtain.classList.add("open");
+
+
+    /* Wait for curtain animation */
+
+    setTimeout(() => {
+
+        countdown.classList.add("active");
+
+        startCountdown();
+
+    }, 1800);
+
+}
+
+
+function startCountdown() {
+
+    const number = document.getElementById("number");
+
+    let count = 3;
+
+    function showNumber() {
+
+        number.textContent = count;
+
+        /* Restart animation */
+
+        number.classList.remove("show");
+
+        void number.offsetWidth;
+
+        number.classList.add("show");
+
+
+        if (count > 1) {
+
+            count--;
+
+            setTimeout(showNumber, 1000);
+
+        } else {
+
+            setTimeout(() => {
+
+                finishCountdown();
+
+            }, 1000);
+
+        }
+
+    }
+
+    showNumber();
+
+}
+
+
+function finishCountdown() {
+
+    const countdown = document.getElementById("countdown");
+    const finalScreen = document.getElementById("finalScreen");
+
+    countdown.classList.remove("active");
+
+    setTimeout(() => {
+
+        finalScreen.classList.add("show");
+
+    }, 500);
+
+}
+
+</script>
+
+</body>
+</html>
