@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:white;font-family:Georgia,serif}
+button{font-family:Georgia,serif;cursor:pointer}
+
+/* CURTAIN */
+.curtain{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center}
+.curtain-left,.curtain-right{
+ position:absolute;top:0;width:50%;height:100%;
+ background:repeating-linear-gradient(90deg,#280006 0px,#5d000d 18px,#350007 36px,#700010 52px,#2b0006 70px);
+ box-shadow:inset 0 0 80px #000000d9;
+ transition:transform 1.8s cubic-bezier(.77,0,.18,1)
+}
+.curtain-left{left:0}
+.curtain-right{right:0}
+.curtain.open .curtain-left{transform:translateX(-100%)}
+.curtain.open .curtain-right{transform:translateX(100%)}
+.intro{position:relative;z-index:110;text-align:center;transition:.6s}
+.intro p{font-size:14px;letter-spacing:5px;text-transform:uppercase;margin-bottom:30px}
+.intro h1{font-size:clamp(45px,7vw,85px);font-weight:normal;margin-bottom:45px}
+.open-btn,.continue-btn{
+ display:inline-block;padding:15px 42px;background:transparent;
+ border:1px solid #ffffffb3;color:white;font-size:13px;
+ letter-spacing:4px;text-decoration:none;transition:.4s
+}
+.open-btn:hover,.continue-btn:hover{background:white;color:#300007}
+.curtain.open .intro{opacity:0;transform:scale(.9);pointer-events:none}
+
+/* COUNTDOWN */
+.countdown{
+ position:fixed;inset:0;z-index:50;display:flex;
+ align-items:center;justify-content:center;background:#030303;
+ opacity:0;visibility:hidden;transition:opacity .5s
+}
+.countdown.active{opacity:1;visibility:visible}
+.number{
+ font-size:clamp(120px,20vw,280px);opacity:0;transform:scale(.3);
+ text-shadow:0 0 30px #ffffff66,0 0 80px #ff002040
+}
+.number.show{animation:count 1s ease forwards}
+@keyframes count{
+ 0%{opacity:0;transform:scale(.3)}
+ 30%{opacity:1;transform:scale(1)}
+ 70%{opacity:1;transform:scale(1.05)}
+ 100%{opacity:0;transform:scale(1.5)}
+}
+
+/* PAGES */
+.page{
+ position:fixed;inset:0;z-index:10;overflow-y:auto;
+ background:radial-gradient(circle at top,#270008,#0d0004 40%,#000);
+ color:white;padding:40px;opacity:0;visibility:hidden;
+ pointer-events:none;transition:opacity .7s
+}
+.page.show{opacity:1;visibility:visible;pointer-events:auto}
+.memory-content{
+ width:min(1400px,90vw);min-height:calc(100vh - 80px);
+ margin:auto;display:flex;align-items:center;justify-content:center;gap:65px
+}
+.photo-container{
+ width:48%;height:70vh;overflow:hidden;background:#111;
+ box-shadow:0 30px 90px #000000cc,0 0 50px #78001430;flex-shrink:0
+}
+.photo-container img{width:100%;height:100%;object-fit:cover;display:block}
+.memory-text{width:45%;font-size:18px;line-height:1.8;color:#ffffffeb}
+.memory-text p{margin-bottom:25px}
+.memory-text p:first-child{font-size:24px;line-height:1.6}
+.continue-area{display:flex;justify-content:center;margin-top:25px;padding-bottom:30px}
+
+/* PAGE 3 */
+.page-three{z-index:20}
+.page-three-content{width:min(900px,100%);margin:auto;padding:20px 0}
+.page-three-content h2{
+ font-size:clamp(32px,5vw,60px);font-weight:normal;text-align:center;
+ letter-spacing:3px;color:#f2b9c4;margin-bottom:35px
+}
+.page-three-content p{font-size:17px;line-height:1.9;margin-bottom:25px}
+
+/* PAGE 4 */
+.page-four{
+ z-index:30;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;text-align:center
+}
+.page-four h2{color:#f2b9c4;font-size:clamp(35px,6vw,65px);font-weight:normal;margin-bottom:20px}
+.page-four p{font-size:18px;line-height:1.8}
+
+@media(max-width:800px){
+ .page{padding:30px 18px 60px}
+ .memory-content{width:100%;min-height:auto;flex-direction:column;gap:30px}
+ .photo-container{width:100%;height:50vh}
+ .memory-text{width:100%;font-size:17px}
+ .memory-text p:first-child{font-size:21px}
+ .page-three-content p{font-size:16px}
+}
+@media(max-width:450px){
+ .intro p{font-size:10px;letter-spacing:3px;padding:0 20px}
+ .intro h1{font-size:42px}
+ .open-btn{padding:13px 32px}
+ .photo-container{height:45vh}
+}
+</style>
+</head>
+
+<body>
+
+<!-- CURTAIN -->
+<div class="curtain" id="curtain">
+ <div class="curtain-left"></div>
+ <div class="curtain-right"></div>
+ <div class="intro">
+  <p>Something I've been wanting to show you</p>
+  <h1>For You.</h1>
+  <button class="open-btn" id="openButton">OPEN</button>
+ </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown" id="countdown">
+ <div class="number" id="number">3</div>
+</div>
+
+<!-- PAGE 2 -->
+<section class="page" id="memoryPage">
+ <div class="memory-content">
+  <div class="photo-container">
+   <img src="images/photo1.jpg" alt="A special memory">
+  </div>
+
+  <div class="memory-text">
+   <p>Just look at how tiny you were when I first told you ‘I loved you, lol.</p>
+
+   <p>That messy hair, that little anger, that innocent version of you Somehow, Those are Enough For Me To Fall For You</p>
+
+   <p>There was no fancy dress, no makeup, nothing special.</p>
+
+   <p>It was just you, being yourself. And honestly, that was more than enough for me.</p>
+
+   <p>It’s been 10 years now, and when I look back, it’s crazy to think how much time has passed.</p>
+
+   <p>But somehow, the little things are still the same.</p>
+
+   <p>The same anger, the same messy hair, the same you.</p>
+
+   <p>And maybe that’s what I love the most. ❤️</p>
+
+   <div class="continue-area">
+    <button class="continue-btn" id="toPageThree">CONTINUE →</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page page-three" id="pageThree">
+ <div class="page-three-content">
+  <h2>YOU SAY LOVE IS FAKE</h2>
+
+  <p>Well, I know I was only 5 when I first said I liked you. I know at that age I probably didn’t even understand what love really meant.</p>
+
+  <p>But still somehow, that little feeling never really went away. Instead, as I grew older, it grew with me</p>
+
+  <p>Maybe you call love fake because you haven’t seen what it looks like when someone chooses the same person, again and again, for years.</p>
+
+  <p>You were a part of my childhood, a part of my growing up, and somehow, even after all these years, you're still someone who holds a special place in my heart.</p>
+
+  <p>I don't know what the future has planned for us, and I don't want to pretend that I have all the answers. I just know that if someone had asked the little five-year-old me what he wanted, he probably would've smiled and said your name.</p>
+
+  <div class="continue-area">
+   <button class="continue-btn" id="toPageFour">CONTINUE →</button>
+  </div>
+ </div>
+</section>
+
+<!-- PAGE 4 -->
+<section class="page page-four" id="pageFour">
+ <h2>There's more...</h2>
+ <p>Your next chapter starts here. ❤️</p>
+</section>
+
+<script>
+const curtain = document.getElementById("curtain");
+const countdown = document.getElementById("countdown");
+const number = document.getElementById("number");
+const memoryPage = document.getElementById("memoryPage");
+const pageThree = document.getElementById("pageThree");
+const pageFour = document.getElementById("pageFour");
+
+document.getElementById("openButton").addEventListener("click", startExperience);
+document.getElementById("toPageThree").addEventListener("click", function(){
+ showPage(pageThree);
+});
+document.getElementById("toPageFour").addEventListener("click", function(){
+ showPage(pageFour);
+});
+
+function startExperience(){
+ curtain.classList.add("open");
+
+ setTimeout(function(){
+  countdown.classList.add("active");
+  startCountdown();
+ },1800);
+}
+
+function startCountdown(){
+ let count = 3;
+
+ function showNumber(){
+  number.textContent = count;
+  number.classList.remove("show");
+  void number.offsetWidth;
+  number.classList.add("show");
+
+  if(count > 1){
+   count--;
+   setTimeout(showNumber,1000);
+  }else{
+   setTimeout(function(){
+    countdown.classList.remove("active");
+    showPage(memoryPage);
+   },1000);
+  }
+ }
+ showNumber();
+}
+
+function showPage(targetPage){
+ [memoryPage,pageThree,pageFour].forEach(function(page){
+  page.classList.remove("show");
+ });
+ targetPage.classList.add("show");
+ targetPage.scrollTop = 0;
+}
+</script>
+
+</body>
+</html>
