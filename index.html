@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #080203;
+  color: #fff4f4;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px;
+  background: radial-gradient(ellipse at center, #260006, #080203 75%);
+}
+
+.page.show {
+  display: flex;
+}
+
+/* BUTTONS */
+button {
+  position: relative;
+  z-index: 5;
+  background: rgba(10, 0, 2, 0.45);
+  color: white;
+  border: 1px solid #e4c5c5;
+  padding: 17px 35px;
+  font-size: 13px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  font-family: Georgia, serif;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #680817;
+  border-color: white;
+}
+
+/* FIRST SCREEN */
+#curtainPage {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+.intro {
+  position: relative;
+  z-index: 3;
+  padding: 30px;
+}
+
+.intro p {
+  color: #f3d9dc;
+  letter-spacing: 3px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.intro h1 {
+  font-size: clamp(42px, 7vw, 78px);
+  margin: 25px 0 35px;
+  font-weight: normal;
+  text-shadow: 0 2px 18px #180006;
+}
+
+/* RED CURTAINS */
+.curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  pointer-events: none;
+}
+
+.curtain-panel {
+  width: 50%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #350006 0px,
+      #690817 15px,
+      #a01427 27px,
+      #50000b 42px,
+      #7b0a19 56px
+    );
+  box-shadow: inset 0 0 55px #160003;
+  transition: transform 1.8s ease-in-out;
+}
+
+.curtain.open .curtain-left {
+  transform: translateX(-101%);
+}
+
+.curtain.open .curtain-right {
+  transform: translateX(101%);
+}
+
+/* COUNTDOWN */
+#countdownPage {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#countNumber {
+  font-size: clamp(90px, 20vw, 180px);
+  color: #f2c5cb;
+  animation: pulse 0.8s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* SECOND SCREEN */
+#memoryPage {
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-layout {
+  width: 100%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 55px;
+  margin: auto;
+}
+
+.photo-frame {
+  width: 100%;
+  height: min(65vh, 560px);
+  background: #111;
+  overflow: hidden;
+}
+
+.photo-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.memory-text {
+  font-size: 19px;
+  line-height: 1.8;
+}
+
+.memory-text p {
+  margin: 0 0 22px;
+}
+
+.continue-wrap {
+  text-align: center;
+  margin-top: 28px;
+}
+
+/* THIRD SCREEN */
+#pageThree {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.page-content {
+  max-width: 900px;
+  width: 100%;
+  margin: auto;
+}
+
+.page-content h1 {
+  font-size: clamp(32px, 5vw, 58px);
+  font-weight: normal;
+  letter-spacing: 4px;
+  line-height: 1.3;
+  margin-bottom: 40px;
+}
+
+.page-content p {
+  font-size: 19px;
+  line-height: 1.9;
+  margin-bottom: 25px;
+}
+
+/* FOURTH SCREEN */
+#pageFour {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#pageFour h1 {
+  font-size: clamp(42px, 7vw, 75px);
+  font-weight: normal;
+}
+
+#pageFour p {
+  font-size: 20px;
+  line-height: 1.8;
+  color: #edcfd2;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 800px) {
+  .page {
+    padding: 25px 18px;
+  }
+
+  .memory-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    max-width: 600px;
+  }
+
+  .photo-frame {
+    height: 40vh;
+    min-height: 240px;
+    max-height: 420px;
+  }
+
+  .memory-text {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .memory-text p {
+    margin-bottom: 18px;
+  }
+
+  .page-content h1 {
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+  }
+
+  .page-content p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .intro p {
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  button {
+    padding: 15px 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+
+  .curtain-panel {
+    transition-duration: 0.3s;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1: CURTAIN INTRO -->
+<section id="curtainPage" class="page show">
+
+  <div class="intro">
+    <p>Something I've been wanting to show you</p>
+    <h1>For You. ❤️</h1>
+    <button id="openButton">OPEN →</button>
+  </div>
+
+  <div id="curtain" class="curtain">
+    <div class="curtain-panel curtain-left"></div>
+    <div class="curtain-panel curtain-right"></div>
+  </div>
+
+</section>
+
+<!-- COUNTDOWN -->
+<section id="countdownPage" class="page">
+  <div>
+    <div id="countNumber">3</div>
+    <p>Something special awaits...</p>
+  </div>
+</section>
+
+<!-- PAGE 2: PHOTO AND MESSAGE -->
+<section id="memoryPage" class="page">
+
+  <div class="memory-layout">
+
+    <div class="photo-frame">
+      <img src="photo1.jpg" alt="A special memory">
+    </div>
+
+    <div class="memory-text">
+
+      <p>Just look at how tiny you were when I first told you ‘I loved you, lol.</p>
+
+      <p>That messy hair, that little anger, that innocent version of you Somehow, Those are Enough For Me To Fall For You</p>
+
+      <p>There was no fancy dress, no makeup, nothing special.</p>
+
+      <p>It was just you, being yourself. And honestly, that was more than enough for me.</p>
+
+      <p>It’s been 10 years now, and when I look back, it’s crazy to think how much time has passed.</p>
+
+      <p>But somehow, the little things are still the same.</p>
+
+      <p>The same anger, the same messy hair, the same you.</p>
+
+      <p>And maybe that’s what I love the most. ❤️</p>
+
+      <div class="continue-wrap">
+        <button id="toPageThree">CONTINUE →</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- PAGE 3: LOVE MESSAGE -->
+<section id="pageThree" class="page">
+
+  <div class="page-content">
+
+    <h1>YOU SAY LOVE IS FAKE</h1>
+
+    <p>Well, I know I was only 5 when I first said I liked you. I know at that age I probably didn’t even understand what love really meant.</p>
+
+    <p>But still somehow, that little feeling never really went away. Instead, as I grew older, it grew with me</p>
+
+    <p>Maybe you call love fake because you haven’t seen what it looks like when someone chooses the same person, again and again, for years.</p>
+
+    <p>You were a part of my childhood, a part of my growing up, and somehow, even after all these years, you're still someone who holds a special place in my heart.</p>
+
+    <p>I don't know what the future has planned for us, and I don't want to pretend that I have all the answers. I just know that if someone had asked the little five-year-old me what he wanted, he probably would've smiled and said your name.</p>
+
+    <div class="continue-wrap">
+      <button id="toPageFour">CONTINUE →</button>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- PAGE 4 -->
+<section id="pageFour" class="page">
+
+  <div class="page-content">
+    <h1>There's more...</h1>
+    <p>Your next chapter starts here. ❤️</p>
+  </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const pageIds = [
+    "curtainPage",
+    "countdownPage",
+    "memoryPage",
+    "pageThree",
+    "pageFour"
+  ];
+
+  let opening = false;
+
+  function showPage(pageId) {
+    pageIds.forEach(function (id) {
+      document.getElementById(id).classList.remove("show");
+    });
+
+    document.getElementById(pageId).classList.add("show");
+    window.scrollTo(0, 0);
+  }
+
+  /* OPEN CURTAIN AND START COUNTDOWN */
+  document.getElementById("openButton").addEventListener("click", function () {
+
+    if (opening) return;
+    opening = true;
+
+    document.getElementById("curtain").classList.add("open");
+
+    setTimeout(function () {
+
+      showPage("countdownPage");
+
+      let count = 3;
+      const number = document.getElementById("countNumber");
+
+      function updateNumber() {
+        number.textContent = count;
+        number.style.animation = "none";
+        void number.offsetWidth;
+        number.style.animation = "pulse 0.8s ease-in-out";
+      }
+
+      updateNumber();
+
+      const timer = setInterval(function () {
+        count--;
+
+        if (count > 0) {
+          updateNumber();
+        } else {
+          clearInterval(timer);
+          showPage("memoryPage");
+          opening = false;
+        }
+
+      }, 1000);
+
+    }, 1800);
+
+  });
+
+  /* PAGE 2 TO PAGE 3 */
+  document.getElementById("toPageThree").addEventListener("click", function () {
+    showPage("pageThree");
+  });
+
+  /* PAGE 3 TO PAGE 4 */
+  document.getElementById("toPageFour").addEventListener("click", function () {
+    showPage("pageFour");
+  });
+
+});
+</script>
+
+</body>
+</html>
