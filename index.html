@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+  background: #120707;
+  color: #fff0e8;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  padding: 40px 7%;
+}
+
+.page.show {
+  display: flex;
+}
+
+button {
+  padding: 14px 35px;
+  border: 1px solid #f2c7c7;
+  border-radius: 30px;
+  background: #7d1828;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 2px;
+  margin-top: 25px;
+}
+
+button:hover {
+  background: #a52a40;
+}
+
+#curtain {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(90deg, #360810, #160609, #360810);
+  padding: 25px;
+}
+
+#countdown {
+  display: none;
+  font-size: 70px;
+  margin-top: 25px;
+}
+
+#memoryPage {
+  align-items: center;
+  justify-content: center;
+  gap: 45px;
+}
+
+.photo {
+  width: 42%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 30px #8d263a55;
+}
+
+.memory-text {
+  max-width: 600px;
+  line-height: 1.9;
+  font-size: 17px;
+}
+
+#pageThree {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-three-text {
+  max-width: 850px;
+  line-height: 1.9;
+  font-size: 17px;
+}
+
+h1 {
+  color: #f2b9c4;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.continue-area {
+  text-align: center;
+}
+
+#pageFour {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .page.show {
+    flex-direction: column;
+    padding: 30px 22px;
+  }
+
+  .photo {
+    width: 90%;
+    max-height: 45vh;
+  }
+
+  .memory-text,
+  .page-three-text {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- OPENING -->
+<div id="curtain">
+  <p>Something I've been wanting to show you</p>
+  <h1>For You.</h1>
+  <button id="openButton" onclick="startCountdown()">OPEN</button>
+  <div id="countdown"></div>
+</div>
+
+<!-- PAGE 2 -->
+<section id="memoryPage" class="page">
+  <img class="photo" src="images/photo1.jpg" alt="A childhood memory">
+
+  <div class="memory-text">
+    <p>Just look at how tiny you were when I first told you ‘I loved you, lol.</p>
+
+    <p>That messy hair, that little anger, that innocent version of you Somehow, Those are Enough For Me To Fall For You</p>
+
+    <p>There was no fancy dress, no makeup, nothing special.</p>
+
+    <p>It was just you, being yourself. And honestly, that was more than enough for me.</p>
+
+    <p>It’s been 10 years now, and when I look back, it’s crazy to think how much time has passed.</p>
+
+    <p>But somehow, the little things are still the same.</p>
+
+    <p>The same anger, the same messy hair, the same you.</p>
+
+    <p>And maybe that’s what I love the most. ❤️</p>
+
+    <div class="continue-area">
+      <button onclick="goToPageThree()">CONTINUE</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 -->
+<section id="pageThree" class="page">
+  <div class="page-three-text">
+    <h1>YOU SAY LOVE IS FAKE</h1>
+
+    <p>Well, I know I was only 5 when I first said I liked you. I know at that age I probably didn’t even understand what love really meant.</p>
+
+    <p>But still somehow, that little feeling never really went away. Instead, as I grew older, it grew with me</p>
+
+    <p>Maybe you call love fake because you haven’t seen what it looks like when someone chooses the same person, again and again, for years.</p>
+
+    <p>You were a part of my childhood, a part of my growing up, and somehow, even after all these years, you're still someone who holds a special place in my heart.</p>
+
+    <p>I don't know what the future has planned for us, and I don't want to pretend that I have all the answers. I just know that if someone had asked the little five-year-old me what he wanted, he probably would've smiled and said your name.</p>
+
+    <div class="continue-area">
+      <button onclick="goToPageFour()">CONTINUE</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 -->
+<section id="pageFour" class="page">
+  <h1>There's more...</h1>
+  <p>Your next chapter starts here. ❤️</p>
+</section>
+
+<script>
+function startCountdown() {
+  const curtain = document.getElementById("curtain");
+  const countdown = document.getElementById("countdown");
+  const openButton = document.getElementById("openButton");
+
+  openButton.style.display = "none";
+  countdown.style.display = "block";
+
+  let number = 3;
+  countdown.textContent = number;
+
+  const timer = setInterval(function () {
+    number--;
+
+    if (number > 0) {
+      countdown.textContent = number;
+    } else {
+      clearInterval(timer);
+      curtain.style.display = "none";
+      document.getElementById("memoryPage").classList.add("show");
+    }
+  }, 1000);
+}
+
+function goToPageThree() {
+  document.getElementById("memoryPage").classList.remove("show");
+  document.getElementById("pageThree").classList.add("show");
+  window.scrollTo(0, 0);
+}
+
+function goToPageFour() {
+  document.getElementById("pageThree").classList.remove("show");
+  document.getElementById("pageFour").classList.add("show");
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>
